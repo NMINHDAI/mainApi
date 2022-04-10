@@ -11,6 +11,7 @@ const conversationRoute = require("./routes/conversations");
 const messageRoute = require("./routes/messages");
 const router = express.Router();
 const path = require("path");
+const cors = require("cors");
 
 dotenv.config();
 
@@ -46,9 +47,10 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   }
 });
 app.use(express.urlencoded({extended:true}));
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/conversations", conversationRoute);
-app.use("/api/messages", messageRoute);
+app.use(cors());
+app.use("/auth", authRoute);
+app.use("/user", userRoute);
+app.use("/conversations", conversationRoute);
+app.use("/messages", messageRoute);
 
-app.listen(process.env.PORT || 8000);
+app.listen(process.env.PORT || 5000);

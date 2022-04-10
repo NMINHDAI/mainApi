@@ -1,6 +1,3 @@
-const express = require("express");
-const router = express.Router();
-
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -8,7 +5,7 @@ const UserModal = require("../models/User");
 
 const secret = 'test';
 
-router.post("/signin",async (req, res) => {
+exports.signin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -26,16 +23,16 @@ router.post("/signin",async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }
-});
+};
 
-router.post("/signup", async (req, res) => {
+exports.signup = async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
 
   try {
     const oldUser = await UserModal.findOne({ email });
 
     if (oldUser) return res.status(400).json({ message: "User already exists" });
-   
+
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const result = await UserModal.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
@@ -48,7 +45,4 @@ router.post("/signup", async (req, res) => {
     
     console.log(error);
   }
-});
-
-
-module.exports = router;
+};
