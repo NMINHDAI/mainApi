@@ -33,7 +33,7 @@ router.post("/signin",async (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, name } = req.body;
 
   try {
     const oldUser = await UserModal.findOne({ email });
@@ -42,7 +42,7 @@ router.post("/signup", async (req, res) => {
     else {
       const hashedPassword = await bcrypt.hash(password, 12);
 
-      const result = await UserModal.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
+      const result = await UserModal.create({ email, password: hashedPassword, name: name });
   
       const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
   
