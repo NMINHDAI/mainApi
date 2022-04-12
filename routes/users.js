@@ -48,7 +48,7 @@ router.post("/signup", async (req, res) => {
       
       //create conversation with admin
       const newConversation = new Conversation({
-        members: [process.env.adminId, JSON.stringify(result._id)],
+        members: [process.env.adminId, result._id],
       });
     
       try {
