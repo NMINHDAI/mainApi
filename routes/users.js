@@ -45,10 +45,10 @@ router.post("/signup", async (req, res) => {
       const result = await UserModal.create({ email, password: hashedPassword, name: name });
   
       const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
-      
+      const stringId = result._id.toHexString();
       //create conversation with admin
       const newConversation = new Conversation({
-        members: [process.env.adminId, result._id],
+        members: [process.env.adminId, stringId],
       });
     
       try {
